@@ -59,7 +59,7 @@ def login_view(request):
         form = AuthenticationForm(request, request.POST)
         if form.is_valid():
             user = form.get_user()
-            login(request, user)
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return redirect("app:user_profile")
         return render(request, "app/login.html", context={"form": form})
 
@@ -79,7 +79,7 @@ def register_view(request):
         form = MyUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()  # Возвращает сохраненного пользователя из данных формы
-            login(request, user)
+            login(request, user,backend='django.contrib.auth.backends.ModelBackend')
             return redirect("app:user_profile")
 
         return render(request, 'app/register.html', context={"form": form})
